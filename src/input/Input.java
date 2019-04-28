@@ -28,7 +28,7 @@ public class Input {
 	private FileHandler fileHandler = null;
 	
 	private boolean noMoreChar() {
-		return next >= END;
+		return (readEof && next >= bufEnd);
 	}
 	
 	private FileHandler getFileHandler(String filename) {
@@ -42,6 +42,7 @@ public class Input {
 		}
 		
 		fileHandler = getFileHandler(filename);
+		fileHandler.open();
 		
 		readEof = false;
 		next     = END;
@@ -101,7 +102,7 @@ public class Input {
 			return 0;
 		}
 		
-		if(readEof == false && flush(false) == -1) {
+		if(readEof == false && flush(false) < 0) {
 			return -1;
 		}
 		
@@ -131,6 +132,7 @@ public class Input {
 			shift = left;
 			if(shift < MAXLEX) {
 				if(!force) return FLUSH_FAIL;
+				
 				left = markStart();
 				tomarkprev();
 				shift = left;
@@ -202,6 +204,14 @@ public class Input {
 		}
 		
 		return (next > sMark);
+	}
+
+	public int getPline() {
+		return Pline;
+	}
+
+	public void setPline(int pline) {
+		Pline = pline;
 	}
 	
 	
