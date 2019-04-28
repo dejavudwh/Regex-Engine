@@ -90,15 +90,120 @@ public class Input {
 	}
 	
 	public int tomarkprev() {
-		/*
-		 * 执行这个函数后，上一个被词法解析器解析的字符串将无法在缓冲区中找到
-		 */
 		pMark = sMark;
 		Pline = Cline;
 		pLength = eMark - sMark;
 		return pMark;
 	}
 	
+	public byte advance() {
+		if(noMoreChar()) {
+			return 0;
+		}
+		
+		if(readEof == false && flush(false) == -1) {
+			return -1;
+		}
+		
+		if(BUF[next] == '\n') {
+			Cline++;
+		}
+		
+		return BUF[next++];
+	}
+
+	public static int NO_MORE_CHARS_TO_READ = 0;
+	public static int FLUSH_OK = 1;
+	public static int FLUSH_FAIL = -1;
 	
-	//
+	private int flush(boolean force) {
+		if(noMoreChar()) {
+			return NO_MORE_CHARS_TO_READ;
+		}
+		
+		if(readEof) {
+			return FLUSH_OK;
+		}
+		
+		if(next > DANGER || force) {
+			int copy, shift, left;
+			left = pMark < sMark ? pMark : sMark;
+			shift = left;
+			if(shift < MAXLEX) {
+				if(!force) return FLUSH_FAIL;
+				left = markStart();
+				tomarkprev();
+				shift = left;
+			}
+			
+			copy = bufEnd - left;
+			System.arraycopy(BUF, 0, BUF, left, copy);
+			
+			if(fillBuf(copy) == 0) {
+				System.out.println("Fill BUF an error occurred");
+			}
+			
+			if (pMark != 0) {
+				pMark -= shift;
+			}
+			
+			sMark -= shift;
+			eMark -= shift;
+			next  -= shift;
+		}
+		
+		return FLUSH_OK;
+	}
+
+	private int fillBuf(int copylen) {
+		int need;
+		int got = 0;
+		need = ((END - copylen) * MAXLEX) / MAXLEX;
+		
+		if(need < 0) {
+			System.err.println("Bad read-request starting addr.");
+		}
+		if(need == 0) {
+			return 0;
+		}
+		
+		if((got = fileHandler.read(BUF, copylen, need)) == -1) {
+			System.err.println("Can't read input file");
+		}
+		
+		bufEnd = copylen + got;
+		if(got < need) {
+			readEof = true;
+		}
+		
+		return got;
+	}
+	
+	public byte lookAhead(int n) {
+		byte p = BUF[next + n -1];
+		
+		if(next + n -1 >= bufEnd && readEof) {
+			return EOF;
+		}
+		
+		return (next + n - 1 < 0 || next + n - 1 >= bufEnd) ? 0 : p; 
+	}
+	
+	public boolean pushback(int n) {
+		while(--n > 0 && next > sMark) {
+			if (BUF[--next] == '\n' || BUF[next] == '\0') {
+				--Cline;
+			}
+		}
+		
+		if (next < eMark) {
+			eMark = next;
+			Mline = Cline;
+		}
+		
+		return (next > sMark);
+	}
+	
+	
+	
 }
