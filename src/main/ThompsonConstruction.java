@@ -2,6 +2,7 @@ package main;
 
 import input.Input;
 import service.MacroHandler;
+import service.RegularExpressionHandler;
 
 public class ThompsonConstruction {
 
@@ -22,14 +23,21 @@ public class ThompsonConstruction {
     	macroHandler.printMacro();
 	}
 	
-	private void runMacroExpandExample() {
+	private void runMacroExpandExample() throws Exception {
 		System.out.println("Enter regular expression");
 		renewInputBuffer();
+		
+		RegularExpressionHandler regularExpr = new RegularExpressionHandler(input, macroHandler);
+    	System.out.println("regular expression after expanded: ");
+    	for (int i = 0; i < regularExpr.getRegularExpressionCount(); i++) {
+    		System.out.println(regularExpr.getRegularExpression(i));	
+    	}
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		ThompsonConstruction construction = new ThompsonConstruction();
 		construction.runMacroExample();
+		construction.runMacroExpandExample();
 	}
 
 }

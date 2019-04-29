@@ -20,7 +20,7 @@ public class StdinHandler implements FileHandler {
 			inputBuf += '\n';
 		}
 		
-		s.close();
+		//s.close();
 	}
 
 	@Override

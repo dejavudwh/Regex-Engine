@@ -55,7 +55,7 @@ public class MacroHandler {
 			ErrorHandler.parseErr(ErrorHandler.Error.E_NOMAC);
 		}
 		else {
-			return macroMap.get(macroName);
+			return "(" + macroMap.get(macroName) + ")";
 		}
 		
 		return "ERROR";//

@@ -30,7 +30,7 @@ public class RegularExpressionHandler {
 		}
 		
 		String regularExpr = "";
-		char c = (char) input.lookAhead(1);
+		char c = (char) input.advance();
 		while(c != '\n' && Character.isSpaceChar(c) == false) {
 			if(c == '"') {
 				inquoted = !inquoted;
@@ -51,6 +51,7 @@ public class RegularExpressionHandler {
 	}
 
 	private String expandMacro(String macroName) throws Exception {
+		//System.out.println("get£º" + macroName);
 		String macroContent = macroHandler.getMacro(macroName);
 		int begin = macroContent.indexOf('{');
 		while(begin != -1) {
@@ -108,11 +109,11 @@ public class RegularExpressionHandler {
 
 	private String extracMacroNameFromInput() throws Exception {
 		String name = "";
-		char c = (char) input.lookAhead(1);
+		char c = (char) input.advance();
 		while(c != '}' && c != '\n') {
+			//System.out.println("get name :" + c);
 			name += c;
-			input.advance();
-			c = (char) input.lookAhead(1);
+			c = (char) input.advance();
 		}
 		
 		if(c == '}') {
@@ -121,5 +122,17 @@ public class RegularExpressionHandler {
 			ErrorHandler.parseErr(ErrorHandler.Error.E_BADMAC);
 			return null;
 		}
+	}
+	
+	public int getRegularExpressionCount() {
+		return regularExprArr.size();
+	}
+	
+	public String getRegularExpression(int index) {
+		if (index < 0 || index >= regularExprArr.size()) {
+			return null;
+		}
+		
+		return regularExprArr.get(index);
 	}
 }
