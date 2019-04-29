@@ -1,6 +1,9 @@
 package service;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import input.Input;
 
@@ -45,5 +48,29 @@ public class MacroHandler {
 		inputSystem.advance();
 		
 		macroMap.put(macroName, macroContent);
+	}
+	
+	public String getMacro(String macroName) throws Exception {
+		if(macroMap.containsKey(macroName) == false) {
+			ErrorHandler.parseErr(ErrorHandler.Error.E_NOMAC);
+		}
+		else {
+			return macroMap.get(macroName);
+		}
+		
+		return "ERROR";//
+	}
+	
+	public void printMacro() {
+		if(macroMap.isEmpty()) {
+			System.out.println("No marco");
+		}
+		else {
+			Iterator<Entry<String, String>> it = macroMap.entrySet().iterator();
+			while(it.hasNext()) {
+				Map.Entry<String, String> entry = (Map.Entry<String, String>)it.next();
+				System.out.println("Macro name: " + entry.getKey() + " Macro content: " + entry.getValue());
+			}
+		}
 	}
 }

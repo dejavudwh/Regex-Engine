@@ -192,7 +192,7 @@ public class Input {
 	}
 	
 	public boolean pushback(int n) {
-		while(--n > 0 && next > sMark) {
+		while(--n >= 0 && next > sMark) {
 			if (BUF[--next] == '\n' || BUF[next] == '\0') {
 				--Cline;
 			}

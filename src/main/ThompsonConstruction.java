@@ -18,6 +18,13 @@ public class ThompsonConstruction {
 		System.out.println("Please enter macro definition");
     	
     	renewInputBuffer();
+    	macroHandler = new MacroHandler(input);
+    	macroHandler.printMacro();
+	}
+	
+	private void runMacroExpandExample() {
+		System.out.println("Enter regular expression");
+		renewInputBuffer();
 	}
 	
 	public static void main(String[] args) {
