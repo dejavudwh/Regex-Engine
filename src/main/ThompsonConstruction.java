@@ -2,6 +2,8 @@ package main;
 
 import input.Input;
 import lexer.Lexer;
+import nfa.NfaMachineConstructor;
+import nfa.NfaPair;
 import service.MacroHandler;
 import service.RegularExpressionHandler;
 
@@ -11,6 +13,11 @@ public class ThompsonConstruction {
 	private MacroHandler macroHandler = null;
 	private RegularExpressionHandler regularExpr = null;
     private Lexer lexer = null;
+    
+    private NfaMachineConstructor nfaMachineConstructor = null;
+    private NfaPrinter nfaPrinter = new NfaPrinter();
+    
+    NfaPair pair = new NfaPair();
 	
 	private void renewInputBuffer() {
 		input.newInput(null);
@@ -135,6 +142,26 @@ public class ThompsonConstruction {
     	}
     	
     	System.out.println(s);
+    }
+    
+    private void runNfaMachineConstructorExample() throws Exception {
+    	lexer = new Lexer(regularExpr);
+    	nfaMachineConstructor = new NfaMachineConstructor(lexer);
+
+    	//nfaMachineConstructor.constructNfaForSingleCharacter(pair);
+    	//nfaMachineConstructor.constructNfaForDot(pair);
+    	//nfaMachineConstructor.constructNfaForCharacterSetWithoutNegative(pair);
+    	//nfaMachineConstructor.constructNfaForCharacterSet(pair);
+    	//nfaMachineConstructor.term(pair);
+    	//nfaMachineConstructor.constructStarClosure(pair);
+    	//nfaMachineConstructor.constructPlusClosure(pair);
+    	//nfaMachineConstructor.constructOptionsClosure(pair);
+    	//nfaMachineConstructor.factor(pair);
+    	//nfaMachineConstructor.cat_expr(pair);
+    	nfaMachineConstructor.expr(pair);
+    	nfaPrinter.printNfa(pair.startNode);
+    	
+    	
     }
 	
 	public static void main(String[] args) throws Exception {

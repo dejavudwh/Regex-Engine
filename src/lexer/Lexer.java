@@ -186,6 +186,10 @@ public class Lexer {
     	return rval;
     }
     
+	public Token getCurrentToken() {
+    	return currentToken;
+    }
+	
     private int hex2Bin(char c) {
     	return (Character.isDigit(c) ? (c) - '0' : (Character.toUpperCase(c) - 'A' + 10)) & 0xf;
     }

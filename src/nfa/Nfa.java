@@ -42,7 +42,7 @@ public class Nfa {
 		inputSet.add(b);
 	}
 	
-	public void addComplement() {
+	public void setComplement() {
 		Set<Byte> newSet = new HashSet<Byte>();
     	
     	for (byte b = 0; b < ASCII_COUNT; b++) {
