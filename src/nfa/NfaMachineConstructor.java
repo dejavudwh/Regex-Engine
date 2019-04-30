@@ -43,17 +43,18 @@ public class NfaMachineConstructor {
 	}
 	
 	public boolean constructAndFactor(NfaPair pairOut) throws Exception {
-		
+		//System.out.println("fuck in");
 		if(isCorrectChar(lexer.getCurrentToken())) {
 			factor(pairOut);
 		}
 		
-		if(isCorrectChar(lexer.getCurrentToken())) {
+		while(isCorrectChar(lexer.getCurrentToken())) {
 			NfaPair pairLocal = new NfaPair();
 			factor(pairLocal);
-			
-			pairOut.startNode.next = pairLocal.startNode;
-			pairOut.endNode.next = pairLocal.endNode;
+			System.out.println("pairout"+pairOut.endNode);
+			System.out.println("pairlocal"+pairLocal.startNode);
+			pairOut.endNode.next = pairLocal.startNode;
+			pairOut.endNode = pairLocal.endNode;
 		}
 		
 		return true;
@@ -88,6 +89,8 @@ public class NfaMachineConstructor {
 	}
 
 	public void factor(NfaPair pairOut) throws Exception {
+		term(pairOut);
+		
     	boolean handled = false;
     	handled = constructStarClosure(pairOut);
     	if (handled == false) {
@@ -101,9 +104,9 @@ public class NfaMachineConstructor {
 	
 	public boolean constructOptionsClosure(NfaPair pairOut) throws Exception {
 		Nfa start, end;
-		term(pairOut);
+		//term(pairOut);
 		
-		if(lexer.MatchToken(Lexer.Token.OPTIONAL)) {
+		if(!lexer.MatchToken(Lexer.Token.OPTIONAL)) {
 			return false;
 		}
 		
@@ -118,14 +121,16 @@ public class NfaMachineConstructor {
 		pairOut.startNode = start;
 		pairOut.endNode = end;
 		
+		lexer.advance();
+		
 		return true;
 	}
 	
 	public boolean constructPlusClosure(NfaPair pairOut) throws Exception {
 		Nfa start ,end;
-		term(pairOut);
+		//term(pairOut);
 		
-		if(!lexer.MatchToken(Lexer.Token.PLUS_CLOSE) == false) {
+		if(!lexer.MatchToken(Lexer.Token.PLUS_CLOSE)) {
 			return false;
 		}
 		
@@ -140,12 +145,14 @@ public class NfaMachineConstructor {
 		pairOut.startNode = start;
 		pairOut.endNode = end;
 		
+		lexer.advance();
+		
 		return true;
 	}
 	
 	public boolean constructStarClosure(NfaPair pairOut) throws Exception {
 		Nfa start, end;
-		term(pairOut);
+		//term(pairOut);
 		
 		if(!lexer.MatchToken(Lexer.Token.CLOSURE)) {
 			return false;
@@ -162,6 +169,8 @@ public class NfaMachineConstructor {
 		
 		pairOut.startNode = start;
 		pairOut.endNode = end;
+		
+		lexer.advance();
 		
 		return true;
 	}
@@ -293,7 +302,7 @@ public class NfaMachineConstructor {
 	private void dodash(Set<Byte> inputSet) {
 		int first = 0;
 		
-		while(!lexer.MatchToken(Lexer.Token.EOS) && !lexer.MatchToken(Lexer.Token.CCL_END) == false) {
+		while(!lexer.MatchToken(Lexer.Token.EOS) && !lexer.MatchToken(Lexer.Token.CCL_END)) {
 			if(!lexer.MatchToken(Lexer.Token.DASH)) {
 				first = lexer.getLexeme();
 				inputSet.add((byte)first);

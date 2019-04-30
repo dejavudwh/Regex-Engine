@@ -169,6 +169,8 @@ public class ThompsonConstruction {
 		construction.runMacroExample();
 		construction.runMacroExpandExample();
 		construction.runLexerExample();
+		
+		construction.runNfaMachineConstructorExample();
 	}
 
 }
