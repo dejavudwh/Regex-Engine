@@ -123,8 +123,6 @@ public class NfaIntepretor {
 		while(it.hasNext()) {
 			Nfa n = it.next();
 			
-			int stateNum = n.getStateNum();
-			Set<Byte> s = n.inputSet;
 			Byte cb = (byte)c;
 			
 			if(n.getEdge() == c || (n.getEdge() == Nfa.CCL && n.inputSet.contains(cb))) {
