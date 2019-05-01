@@ -6,6 +6,7 @@ import nfa.NfaMachineConstructor;
 import nfa.NfaPair;
 import nfa.NfaPrinter;
 import service.MacroHandler;
+import service.NfaIntepretor;
 import service.RegularExpressionHandler;
 
 public class ThompsonConstruction {
@@ -17,6 +18,7 @@ public class ThompsonConstruction {
     
     private NfaMachineConstructor nfaMachineConstructor = null;
     private NfaPrinter nfaPrinter = new NfaPrinter();
+    private NfaIntepretor nfaIntepretor = null;
     
     NfaPair pair = new NfaPair();
 	
@@ -162,7 +164,11 @@ public class ThompsonConstruction {
     	nfaMachineConstructor.expr(pair);
     	nfaPrinter.printNfa(pair.startNode);
     	
-    	
+    }
+    
+    public void runNfaIntepretorExample() {
+    	nfaIntepretor = new NfaIntepretor(pair.startNode, input);
+    	nfaIntepretor.intepretNfa();
     }
 	
 	public static void main(String[] args) throws Exception {
@@ -172,6 +178,7 @@ public class ThompsonConstruction {
 		construction.runLexerExample();
 		
 		construction.runNfaMachineConstructorExample();
+		construction.runNfaIntepretorExample();
 	}
 
 }
