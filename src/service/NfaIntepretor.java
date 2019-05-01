@@ -1,5 +1,6 @@
 package service;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.Stack;
@@ -16,6 +17,8 @@ public class NfaIntepretor {
 		this.start = start;
 		this.input = input;
 	}
+	
+	
 	
 	private Set<Nfa> e_closure(Set<Nfa> input) {
 		System.out.print("¦Å-Closure( " + strFromNfaSet(input) + " ) = ");
@@ -55,6 +58,30 @@ public class NfaIntepretor {
     	return input;
 	}
 
+	private Set<Nfa> move(Set<Nfa> input, char c) {
+		Set<Nfa> outSet = new HashSet<Nfa>();
+		Iterator<Nfa> it = input.iterator();
+		
+		while(it.hasNext()) {
+			Nfa n = it.next();
+			
+			int stateNum = n.getStateNum();
+			Set<Byte> s = n.inputSet;
+			Byte cb = (byte)c;
+			
+			if(n.getEdge() == c || (n.getEdge() == Nfa.CCL && n.inputSet.contains(cb))) {
+				outSet.add(n.next);
+			}
+			
+			if(outSet != null) {
+				System.out.print("move({ " + strFromNfaSet(input) + " }, '" + c + "')= ");
+	        	System.out.println("{ " + strFromNfaSet(outSet) + " }");
+			}
+		}
+		
+		return outSet;
+	}
+	
 	private String strFromNfaSet(Set<Nfa> input) {
 		String s = "";
     	Iterator<Nfa> it = input.iterator();
