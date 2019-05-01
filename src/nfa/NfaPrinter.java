@@ -1,8 +1,6 @@
-package main;
+package nfa;
 
 import java.util.Set;
-
-import nfa.Nfa;
 
 public class NfaPrinter {
 

@@ -4,6 +4,7 @@ import input.Input;
 import lexer.Lexer;
 import nfa.NfaMachineConstructor;
 import nfa.NfaPair;
+import nfa.NfaPrinter;
 import service.MacroHandler;
 import service.RegularExpressionHandler;
 
