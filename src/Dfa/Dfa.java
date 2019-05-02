@@ -1,3 +1,4 @@
+package Dfa;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -9,7 +10,7 @@ public class Dfa {
 	private static int STATE_NUM = 0;
 	
 	int stateNum = 0;
-	private Set<Nfa> nfaStates = new HashSet<Nfa>();
+	public Set<Nfa> nfaStates = new HashSet<Nfa>();
 	boolean accepted = false;
 	
 	public static Dfa getDfaFromNfaSet(Set<Nfa> input) {

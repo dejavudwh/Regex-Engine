@@ -13,6 +13,8 @@ public class NfaIntepretor {
 	private Nfa start = null;
 	private Input input = null;
 	
+	public boolean debug = true;
+	
 	public NfaIntepretor(Nfa start, Input input) {
 		this.start = start;
 		this.input = input;
@@ -78,8 +80,9 @@ public class NfaIntepretor {
     	return isAccepted;
     }
 
-	private Set<Nfa> e_closure(Set<Nfa> input) {
-		System.out.print("¦Å-Closure( " + strFromNfaSet(input) + " ) = ");
+	public Set<Nfa> e_closure(Set<Nfa> input) {
+		if (debug)
+			System.out.print("¦Å-Closure( " + strFromNfaSet(input) + " ) = ");
 		
 		Stack<Nfa> nfaStack = new Stack<Nfa>();
 		if(input == null || input.isEmpty()) {
@@ -109,14 +112,14 @@ public class NfaIntepretor {
 			}
 		}
 		
-		if (input != null) {
+		if (input != null && debug) {
     		System.out.println("{ " + strFromNfaSet(input) + " }");
     	}
     	
     	return input;
 	}
 
-	private Set<Nfa> move(Set<Nfa> input, char c) {
+	public Set<Nfa> move(Set<Nfa> input, char c) {
 		Set<Nfa> outSet = new HashSet<Nfa>();
 		Iterator<Nfa> it = input.iterator();
 		
@@ -129,7 +132,7 @@ public class NfaIntepretor {
 				outSet.add(n.next);
 			}
 			
-			if(outSet != null) {
+			if(outSet != null && debug) {
 				System.out.print("move({ " + strFromNfaSet(input) + " }, '" + c + "')= ");
 	        	System.out.println("{ " + strFromNfaSet(outSet) + " }");
 			}
