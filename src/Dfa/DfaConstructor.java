@@ -149,6 +149,22 @@ public class DfaConstructor {
     	
     	return true;
     }
+
+	public ArrayList<Dfa> getDfaList() {
+		return dfaList;
+	}
+
+	public void setDfaList(ArrayList<Dfa> dfaList) {
+		this.dfaList = dfaList;
+	}
+
+	public int[][] getDfaStateTransformTable() {
+		return dfaStateTransformTable;
+	}
+
+	public void setDfaStateTransformTable(int[][] dfaStateTransformTable) {
+		this.dfaStateTransformTable = dfaStateTransformTable;
+	}
 	
 	
 	

@@ -1,6 +1,7 @@
 package main;
 
 import Dfa.DfaConstructor;
+import Dfa.MinimizeDFA;
 import input.Input;
 import lexer.Lexer;
 import nfa.NfaMachineConstructor;
@@ -20,7 +21,10 @@ public class ThompsonConstruction {
     private NfaMachineConstructor nfaMachineConstructor = null;
     private NfaPrinter nfaPrinter = new NfaPrinter();
     private NfaIntepretor nfaIntepretor = null;
+    
     private DfaConstructor dfaConstructor = null;
+    
+    private MinimizeDFA miniDfa = null;
     
     NfaPair pair = new NfaPair();
 	
@@ -178,6 +182,11 @@ public class ThompsonConstruction {
  	   dfaConstructor.convertNfaToDfa();
  	   dfaConstructor.printDFA();
     }
+    
+    private void runMinimizeDFAExample() {
+    	miniDfa = new MinimizeDFA(dfaConstructor);
+    	miniDfa.minimize();
+    }
 	
 	public static void main(String[] args) throws Exception {
 		ThompsonConstruction construction = new ThompsonConstruction();
@@ -188,6 +197,8 @@ public class ThompsonConstruction {
 		construction.runNfaMachineConstructorExample();
 		construction.runNfaIntepretorExample();
 		construction.runDfaConstructorExample();
+		
+		construction.runMinimizeDFAExample();
 	}
 
 }
